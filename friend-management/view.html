@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>친구 상세보기</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 페이지 제목 -->
+  <div class="page-header">
+    <h1>🔍 친구 상세보기</h1>
+  </div>
+
+  <!-- 알림 메시지 영역 -->
+  <div id="alert-area"></div>
+
+  <!-- 친구 상세 정보를 표시할 카드 -->
+  <div class="card">
+    <!--
+      상세 정보를 테이블 형태로 표시한다.
+      th: 항목 이름(이름, 관계 등)
+      td: 실제 데이터 값 (JavaScript로 채운다)
+    -->
+    <table class="detail-table">
+      <tr>
+        <th>이름</th>
+        <td id="detail-name"></td>
+      </tr>
+      <tr>
+        <th>관계</th>
+        <td id="detail-relation"></td>
+      </tr>
+      <tr>
+        <th>전화번호</th>
+        <td id="detail-phone"></td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td id="detail-email"></td>
+      </tr>
+      <tr>
+        <th>주소</th>
+        <td id="detail-address"></td>
+      </tr>
+      <tr>
+        <th>생일</th>
+        <td id="detail-birthday"></td>
+      </tr>
+    </table>
+
+    <!-- 버튼 영역 -->
+    <div class="detail-actions">
+      <!--
+        [Edit] 버튼: edit.html?id=숫자 로 이동한다.
+        id는 JavaScript에서 동적으로 채워준다. (처음엔 # 으로 비워둠)
+      -->
+      <a id="edit-btn" href="#" class="btn btn-success">Edit</a>
+      <!-- [Delete] 버튼: 클릭하면 handleDelete() 함수 실행 -->
+      <button class="btn btn-danger" onclick="handleDelete()">Delete</button>
+      <!-- [Back] 버튼: 목록 페이지로 이동 -->
+      <a href="index.html" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/script.js"></script>
+
+<script>
+  // -------------------------------------------------------
+  // 현재 보고 있는 친구의 id를 URL 파라미터에서 읽는다.
+  // URL: view.html?id=3  →  friendId = 3 (숫자)
+  //
+  // getParam()은 항상 문자열을 반환하므로
+  // Number()로 숫자로 변환해야 한다.
+  // script.js의 getFriendById()는 숫자 id로 비교하기 때문이다.
+  // -------------------------------------------------------
+  var friendId = Number(getParam("id"));
+
+
+  // -------------------------------------------------------
+  // [CRUD 중 Read 담당] 페이지가 로드되면 친구 정보를 표시한다.
+  // -------------------------------------------------------
+  function loadFriendDetail() {
+    // script.js의 getFriendById()로 해당 친구 데이터를 가져온다.
+    var friend = getFriendById(friendId);
+
+    // id에 해당하는 친구가 없으면 오류 메시지 표시
+    if (!friend) {
+      document.getElementById("alert-area").innerHTML =
+        '<div class="alert alert-error">친구 정보를 찾을 수 없습니다.</div>';
+      return;
+    }
+
+    // 각 td 요소에 친구 데이터를 채워 넣는다.
+    // 빈 값이면 "-" 로 표시한다. (|| 연산자: 왼쪽이 빈 문자열이면 오른쪽 값 사용)
+    document.getElementById("detail-name").textContent     = friend.name     || "-";
+    document.getElementById("detail-relation").textContent = friend.relation || "-";
+    document.getElementById("detail-phone").textContent    = friend.phone    || "-";
+    document.getElementById("detail-email").textContent    = friend.email    || "-";
+    document.getElementById("detail-address").textContent  = friend.address  || "-";
+    document.getElementById("detail-birthday").textContent = friend.birthday || "-";
+
+    // [Edit] 버튼의 href를 현재 친구의 id를 포함한 URL로 업데이트한다.
+    document.getElementById("edit-btn").href = "edit.html?id=" + friendId;
+  }
+
+
+  // -------------------------------------------------------
+  // [CRUD 중 Delete 담당] 삭제 버튼 클릭 시 실행되는 함수
+  // -------------------------------------------------------
+  function handleDelete() {
+    // 실수로 삭제하는 것을 방지하기 위해 확인 창을 띄운다.
+    // confirm()은 [확인] 또는 [취소] 버튼이 있는 창을 표시하고
+    // [확인]을 누르면 true, [취소]를 누르면 false를 반환한다.
+    var confirmed = confirm("정말로 이 친구를 삭제하시겠습니까?");
+
+    if (!confirmed) {
+      return; // [취소]를 누르면 아무것도 하지 않는다.
+    }
+
+    // script.js의 deleteFriend() 함수로 localStorage에서 해당 친구를 삭제한다.
+    deleteFriend(friendId);
+
+    // 삭제 완료 후 목록 페이지로 이동한다.
+    alert("삭제되었습니다.");
+    location.href = "index.html";
+  }
+
+
+  // 페이지 로드 즉시 친구 정보를 불러온다.
+  loadFriendDetail();
+</script>
+
+</body>
+</html>

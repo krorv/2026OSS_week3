@@ -1,0 +1,259 @@
+/* =======================================================
+   style.css
+   역할: 모든 페이지에서 공통으로 사용하는 디자인(스타일)을 정의한 파일
+        색상, 크기, 간격, 폰트 등을 여기서 한 번만 정의하면
+        모든 HTML 파일에서 동일하게 적용된다.
+   ======================================================= */
+
+
+/* -------------------------------------------------------
+   [전체 기본 설정]
+   box-sizing: border-box → padding/border를 포함해서 크기를 계산
+   이 설정이 없으면 padding을 주면 요소가 예상보다 커진다.
+   ------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif; /* 기본 글꼴 설정 */
+  background-color: #f5f7fa;                 /* 연한 회색 배경 */
+  color: #333;                               /* 기본 글자색 (진한 회색) */
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+/* -------------------------------------------------------
+   [페이지 전체를 감싸는 컨테이너]
+   max-width로 너무 넓어지지 않도록 제한하고
+   margin: auto로 가운데 정렬한다.
+   ------------------------------------------------------- */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+
+/* -------------------------------------------------------
+   [페이지 제목 영역]
+   ------------------------------------------------------- */
+.page-header {
+  display: flex;                  /* 가로로 나란히 배치 */
+  justify-content: space-between; /* 제목은 왼쪽, 버튼은 오른쪽 */
+  align-items: center;            /* 세로 기준으로 가운데 정렬 */
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #dce1e7;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+
+/* -------------------------------------------------------
+   [버튼 공통 스타일]
+   모든 버튼에 기본 모양을 적용한다.
+   ------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;         /* 마우스를 올리면 손가락 모양으로 */
+  text-decoration: none;   /* 링크에 btn 클래스를 쓸 때 밑줄 제거 */
+  text-align: center;
+  transition: opacity 0.15s; /* 클릭 시 살짝 흐려지는 효과 */
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* 파란색 버튼 (주요 동작: 추가, 저장) */
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+
+/* 초록색 버튼 (수정) */
+.btn-success {
+  background-color: #2ecc71;
+  color: white;
+}
+
+/* 빨간색 버튼 (삭제) */
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* 회색 버튼 (취소, 뒤로가기) */
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+
+/* -------------------------------------------------------
+   [카드 스타일]
+   흰색 배경 박스 - 목록, 폼, 상세보기 등에서 사용
+   ------------------------------------------------------- */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* 살짝 그림자 */
+  padding: 28px;
+}
+
+
+/* -------------------------------------------------------
+   [테이블 스타일] - index.html 친구 목록 테이블
+   ------------------------------------------------------- */
+.friend-table {
+  width: 100%;
+  border-collapse: collapse; /* 테두리 사이 간격 제거 */
+  font-size: 14px;
+}
+
+.friend-table th {
+  background-color: #2c3e50;
+  color: white;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.friend-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #ecf0f1;
+  vertical-align: middle;
+}
+
+/* 짝수 행에 연한 색 배경 (줄무늬 효과) */
+.friend-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* 마우스를 올리면 행에 하이라이트 */
+.friend-table tbody tr:hover {
+  background-color: #eaf4fb;
+}
+
+/* 데이터가 없을 때 표시하는 셀 */
+.empty-row td {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+}
+
+
+/* -------------------------------------------------------
+   [폼 스타일] - add.html, edit.html 입력 폼
+   ------------------------------------------------------- */
+.form-group {
+  margin-bottom: 18px; /* 각 입력 항목 사이 간격 */
+}
+
+.form-group label {
+  display: block;       /* 라벨을 한 줄 전체 차지 */
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background-color: white;
+  outline: none; /* 기본 파란 테두리 제거 */
+}
+
+/* 입력칸에 클릭(포커스)하면 테두리 색 변경 */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* 버튼들을 담는 영역 */
+.form-actions {
+  display: flex;
+  gap: 10px;         /* 버튼 사이 간격 */
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+
+/* -------------------------------------------------------
+   [상세보기 스타일] - view.html
+   ------------------------------------------------------- */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.detail-table th {
+  width: 140px;          /* 항목 이름 칸 너비 고정 */
+  background-color: #f0f4f8;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: bold;
+  color: #555;
+  border-bottom: 1px solid #dce1e7;
+}
+
+.detail-table td {
+  padding: 12px 16px;
+  color: #333;
+  border-bottom: 1px solid #dce1e7;
+}
+
+/* 상세보기 하단 버튼 영역 */
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+
+/* -------------------------------------------------------
+   [알림 메시지 스타일]
+   동작 성공/실패 시 화면 상단에 잠깐 표시되는 메시지
+   ------------------------------------------------------- */
+.alert {
+  padding: 12px 18px;
+  border-radius: 5px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.alert-success {
+  background-color: #d5f5e3;
+  color: #1e8449;
+  border: 1px solid #a9dfbf;
+}
+
+.alert-error {
+  background-color: #fadbd8;
+  color: #922b21;
+  border: 1px solid #f1948a;
+}

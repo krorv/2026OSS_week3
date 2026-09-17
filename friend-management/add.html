@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>친구 추가</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 페이지 제목 -->
+  <div class="page-header">
+    <h1>➕ 친구 추가</h1>
+  </div>
+
+  <!-- 성공/오류 메시지를 표시할 영역 (처음에는 숨겨져 있음) -->
+  <div id="alert-area"></div>
+
+  <!-- 친구 정보 입력 폼 -->
+  <div class="card">
+    <!--
+      form 태그의 onsubmit 이벤트:
+      사용자가 [등록] 버튼을 눌렀을 때 handleSubmit() 함수를 실행한다.
+      "return false" 없이는 폼이 자동으로 페이지를 새로고침하기 때문에
+      JavaScript로 직접 처리하기 위해 onsubmit="return handleSubmit()" 형태로 작성한다.
+    -->
+    <form id="add-form" onsubmit="return handleSubmit()">
+
+      <!-- 이름 -->
+      <div class="form-group">
+        <label for="name">이름 *</label>
+        <input type="text" id="name" placeholder="이름을 입력하세요" required>
+        <!-- required: 비어 있으면 폼 제출을 막아주는 HTML 기본 기능 -->
+      </div>
+
+      <!-- 관계 -->
+      <div class="form-group">
+        <label for="relation">관계 *</label>
+        <select id="relation" required>
+          <option value="">-- 선택하세요 --</option>
+          <option value="친구">친구</option>
+          <option value="직장동료">직장동료</option>
+          <option value="선배">선배</option>
+          <option value="후배">후배</option>
+          <option value="가족">가족</option>
+          <option value="지인">지인</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+
+      <!-- 전화번호 -->
+      <div class="form-group">
+        <label for="phone">전화번호</label>
+        <input type="text" id="phone" placeholder="010-0000-0000">
+      </div>
+
+      <!-- 이메일 -->
+      <div class="form-group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" placeholder="example@email.com">
+        <!-- type="email": 이메일 형식이 아니면 브라우저가 경고를 표시한다. -->
+      </div>
+
+      <!-- 주소 -->
+      <div class="form-group">
+        <label for="address">주소</label>
+        <input type="text" id="address" placeholder="주소를 입력하세요">
+      </div>
+
+      <!-- 생일 -->
+      <div class="form-group">
+        <label for="birthday">생일</label>
+        <input type="date" id="birthday">
+        <!-- type="date": 날짜 선택 UI를 자동으로 제공한다. -->
+      </div>
+
+      <!-- 버튼 영역 -->
+      <div class="form-actions">
+        <!-- type="submit": 클릭하면 form의 onsubmit 이벤트가 발생한다. -->
+        <button type="submit" class="btn btn-primary">등록</button>
+        <!-- type="button": 클릭해도 form이 제출되지 않는다. -->
+        <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">Cancel</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+<script src="js/script.js"></script>
+
+<script>
+  // -------------------------------------------------------
+  // [CRUD 중 Create 담당] 폼 제출 처리 함수
+  // [등록] 버튼을 누르면 이 함수가 실행된다.
+  // -------------------------------------------------------
+  function handleSubmit() {
+    // 각 입력 칸에서 사용자가 입력한 값을 가져온다.
+    // .value → input 요소의 현재 입력값
+    // .trim() → 앞뒤 공백을 제거한다. (실수로 공백만 입력하는 경우 방지)
+    var name     = document.getElementById("name").value.trim();
+    var relation = document.getElementById("relation").value;
+    var phone    = document.getElementById("phone").value.trim();
+    var email    = document.getElementById("email").value.trim();
+    var address  = document.getElementById("address").value.trim();
+    var birthday = document.getElementById("birthday").value;
+
+    // 이름이 비어 있으면 등록하지 않고 오류 메시지를 표시한다.
+    if (name === "") {
+      showAlert("이름은 필수 입력 항목입니다.", "error");
+      return false; // false를 반환하면 폼 제출(페이지 이동)이 막힌다.
+    }
+
+    // 새 친구 객체를 만든다. (id는 addFriend 함수 안에서 자동으로 만들어진다)
+    var newFriend = {
+      name: name,
+      relation: relation,
+      phone: phone,
+      email: email,
+      address: address,
+      birthday: birthday
+    };
+
+    // script.js의 addFriend() 함수로 localStorage에 저장한다.
+    addFriend(newFriend);
+
+    // 성공 메시지를 잠깐 보여준 뒤 목록 페이지로 이동한다.
+    showAlert("친구가 등록되었습니다! 목록으로 이동합니다...", "success");
+
+    // 1.2초 후에 index.html로 이동한다.
+    setTimeout(function() {
+      location.href = "index.html";
+    }, 1200);
+
+    // false를 반환해서 폼의 기본 제출(페이지 새로고침)을 막는다.
+    return false;
+  }
+
+
+  // -------------------------------------------------------
+  // 알림 메시지를 화면에 표시하는 함수
+  // type: "success" (초록) 또는 "error" (빨간)
+  // -------------------------------------------------------
+  function showAlert(message, type) {
+    var alertArea = document.getElementById("alert-area");
+    alertArea.innerHTML =
+      '<div class="alert alert-' + type + '">' + message + '</div>';
+  }
+</script>
+
+</body>
+</html>
