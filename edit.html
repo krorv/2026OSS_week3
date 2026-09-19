@@ -4,126 +4,153 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>친구 수정</title>
-  <link rel="stylesheet" href="style.css">
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="my.css">
 </head>
 <body>
 
-<div class="container">
-
-  <!-- 페이지 제목 -->
-  <div class="page-header">
-    <h1>✏️ 친구 수정</h1>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">👥 친구관리</a>
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="메뉴 열기">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">목록</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="add.html">친구 추가</a>
+        </li>
+      </ul>
+    </div>
   </div>
+</nav>
 
-  <!-- 알림 메시지 영역 -->
-  <div id="alert-area"></div>
+<!-- 메인 콘텐츠 -->
+<div class="container my-4">
 
-  <!-- 수정 폼 -->
-  <div class="card">
-    <form id="edit-form" onsubmit="return handleSubmit()">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
 
-      <!-- 이름 -->
-      <div class="form-group">
-        <label for="name">이름 *</label>
-        <input type="text" id="name" required>
+      <!-- 페이지 제목 -->
+      <h1 class="h3 fw-bold mb-4">✏️ 친구 수정</h1>
+
+      <!-- 알림 메시지 영역 -->
+      <div id="alert-area"></div>
+
+      <!-- 수정 폼 카드 -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form id="edit-form" onsubmit="return handleSubmit()">
+
+            <!-- 이름 -->
+            <div class="mb-3">
+              <label for="name" class="form-label fw-semibold">
+                이름 <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" id="name">
+            </div>
+
+            <!-- 관계 -->
+            <div class="mb-3">
+              <label for="relation" class="form-label fw-semibold">
+                관계 <span class="text-danger">*</span>
+              </label>
+              <select class="form-select" id="relation">
+                <option value="">-- 선택하세요 --</option>
+                <option value="친구">친구</option>
+                <option value="직장동료">직장동료</option>
+                <option value="선배">선배</option>
+                <option value="후배">후배</option>
+                <option value="가족">가족</option>
+                <option value="지인">지인</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+
+            <!-- 전화번호 -->
+            <div class="mb-3">
+              <label for="phone" class="form-label fw-semibold">전화번호</label>
+              <input type="text" class="form-control" id="phone">
+            </div>
+
+            <!-- 이메일 -->
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">이메일</label>
+              <input type="text" class="form-control" id="email">
+            </div>
+
+            <!-- 주소 -->
+            <div class="mb-3">
+              <label for="address" class="form-label fw-semibold">주소</label>
+              <input type="text" class="form-control" id="address">
+            </div>
+
+            <!-- 생일 -->
+            <div class="mb-3">
+              <label for="birthday" class="form-label fw-semibold">
+                생일 <span class="text-danger">*</span>
+              </label>
+              <input type="date" class="form-control" id="birthday">
+            </div>
+
+            <!-- 버튼 영역 -->
+            <div class="d-flex gap-2 mt-4 pt-3 border-top">
+              <button type="submit" class="btn btn-success">저장</button>
+              <button type="button" class="btn btn-secondary"
+                      onclick="goBack()">Cancel</button>
+            </div>
+
+          </form>
+        </div>
       </div>
 
-      <!-- 관계 -->
-      <div class="form-group">
-        <label for="relation">관계 *</label>
-        <select id="relation" required>
-          <option value="">-- 선택하세요 --</option>
-          <option value="친구">친구</option>
-          <option value="직장동료">직장동료</option>
-          <option value="선배">선배</option>
-          <option value="후배">후배</option>
-          <option value="가족">가족</option>
-          <option value="지인">지인</option>
-          <option value="기타">기타</option>
-        </select>
-      </div>
-
-      <!-- 전화번호 -->
-      <div class="form-group">
-        <label for="phone">전화번호</label>
-        <input type="text" id="phone">
-      </div>
-
-      <!-- 이메일 -->
-      <div class="form-group">
-        <label for="email">이메일</label>
-        <input type="email" id="email">
-      </div>
-
-      <!-- 주소 -->
-      <div class="form-group">
-        <label for="address">주소</label>
-        <input type="text" id="address">
-      </div>
-
-      <!-- 생일 -->
-      <div class="form-group">
-        <label for="birthday">생일</label>
-        <input type="date" id="birthday">
-      </div>
-
-      <!-- 버튼 영역 -->
-      <div class="form-actions">
-        <button type="submit" class="btn btn-success">저장</button>
-        <!--
-          [Cancel] 버튼: 수정하지 않고 상세보기 페이지로 돌아간다.
-          id를 포함해서 돌아가야 하므로 JavaScript로 동적으로 처리한다.
-        -->
-        <button type="button" class="btn btn-secondary" onclick="goBack()">Cancel</button>
-      </div>
-
-    </form>
+    </div>
   </div>
-
 </div>
 
-<script src="script.js"></script>
+<!-- Footer -->
+<footer class="footer bg-dark text-secondary text-center py-3 mt-5">
+  <small>친구관리 프로그램 &copy; 2026</small>
+</footer>
 
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 <script>
-  // -------------------------------------------------------
-  // URL에서 id를 읽어온다.
-  // URL 예시: edit.html?id=3  →  friendId = 3 (숫자)
-  // -------------------------------------------------------
   var friendId = Number(getParam("id"));
 
-
   // -------------------------------------------------------
-  // [CRUD 중 Read 담당 - 수정 전 기존 데이터 불러오기]
-  // 페이지가 열리면 기존 친구 데이터를 폼에 미리 채워준다.
-  // 사용자가 변경하지 않은 항목은 원래 값이 그대로 유지된다.
+  // 페이지가 열리면 기존 데이터를 폼에 미리 채워준다.
   // -------------------------------------------------------
   function loadFriendData() {
     var friend = getFriendById(friendId);
 
-    // 해당 친구를 찾지 못하면 오류 메시지를 표시한다.
     if (!friend) {
       document.getElementById("alert-area").innerHTML =
-        '<div class="alert alert-error">친구 정보를 찾을 수 없습니다. <a href="index.html">목록으로</a></div>';
-      // 폼을 숨긴다.
+        '<div class="alert alert-danger" role="alert">' +
+          '친구 정보를 찾을 수 없습니다. <a href="index.html" class="alert-link">목록으로</a>' +
+        '</div>';
       document.getElementById("edit-form").style.display = "none";
       return;
     }
 
-    // 각 입력 칸에 기존 데이터를 미리 채워준다.
-    // input의 value 속성에 값을 넣으면 입력창에 값이 표시된다.
     document.getElementById("name").value     = friend.name;
     document.getElementById("phone").value    = friend.phone;
     document.getElementById("email").value    = friend.email;
     document.getElementById("address").value  = friend.address;
     document.getElementById("birthday").value = friend.birthday;
-
-    // select(드롭다운)는 value를 직접 지정하면 해당 옵션이 선택된다.
     document.getElementById("relation").value = friend.relation;
   }
 
-
   // -------------------------------------------------------
-  // [CRUD 중 Update 담당] 저장 버튼 클릭 시 실행되는 함수
+  // [CRUD 중 Update 담당] 저장 버튼 클릭 시 실행
   // -------------------------------------------------------
   function handleSubmit() {
     var name     = document.getElementById("name").value.trim();
@@ -133,59 +160,77 @@
     var address  = document.getElementById("address").value.trim();
     var birthday = document.getElementById("birthday").value;
 
-    // 이름 필수 유효성 검사
+    // [Validation 1] 이름 필수값
     if (name === "") {
-      showAlert("이름은 필수 입력 항목입니다.", "error");
+      showAlert("이름은 필수 입력 항목입니다.", "danger");
       return false;
     }
 
-    // 수정된 친구 객체를 만든다.
-    // 반드시 기존 id를 포함해야 한다.
-    // id가 없으면 script.js의 updateFriend()가 어떤 항목을 수정할지 알 수 없다.
-    var updatedFriend = {
-      id: friendId,   // 원래 id를 그대로 사용
-      name: name,
-      relation: relation,
-      phone: phone,
-      email: email,
-      address: address,
-      birthday: birthday
-    };
+    // [Validation 2] 이름 2글자 이상
+    if (name.length < 2) {
+      showAlert("이름은 2글자 이상 입력해주세요.", "danger");
+      return false;
+    }
 
-    // script.js의 updateFriend()로 localStorage의 데이터를 업데이트한다.
-    updateFriend(updatedFriend);
+    // [Validation 3] 관계 선택 여부
+    if (relation === "") {
+      showAlert("관계를 선택해주세요.", "danger");
+      return false;
+    }
 
-    // 성공 메시지 표시 후 상세보기 페이지로 이동
+    // [Validation 4] 이메일 형식
+    if (email !== "") {
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showAlert("이메일 형식이 올바르지 않습니다. (예: example@email.com)", "danger");
+        return false;
+      }
+    }
+
+    // [Validation 5] 전화번호 형식
+    if (phone !== "") {
+      var phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+      if (!phoneRegex.test(phone)) {
+        showAlert("전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)", "danger");
+        return false;
+      }
+    }
+
+    // [Validation 6] 생일 필수값
+    if (birthday === "") {
+      showAlert("생일을 입력해주세요.", "danger");
+      return false;
+    }
+
+    // confirm 메시지
+    var confirmed = confirm(
+      "게시물을 수정할까요?\n\n" +
+      "이름: " + name + "\n" +
+      "관계: " + relation
+    );
+    if (!confirmed) return false;
+
+    updateFriend({ id: friendId, name, relation, phone, email, address, birthday });
+
     showAlert("수정이 완료되었습니다! 상세보기로 이동합니다...", "success");
+    setTimeout(function() { location.href = "view.html?id=" + friendId; }, 1200);
 
-    setTimeout(function() {
-      // 수정한 친구의 상세보기 페이지로 이동한다. (id를 URL에 포함)
-      location.href = "view.html?id=" + friendId;
-    }, 1200);
-
-    return false; // 폼 기본 제출 동작 막기
+    return false;
   }
 
-
-  // -------------------------------------------------------
-  // [Cancel] 버튼: 상세보기 페이지로 돌아가는 함수
-  // -------------------------------------------------------
   function goBack() {
     location.href = "view.html?id=" + friendId;
   }
 
-
-  // -------------------------------------------------------
-  // 알림 메시지 표시 함수
-  // -------------------------------------------------------
+  // Bootstrap alert 컴포넌트 사용
   function showAlert(message, type) {
-    var alertArea = document.getElementById("alert-area");
-    alertArea.innerHTML =
-      '<div class="alert alert-' + type + '">' + message + '</div>';
+    document.getElementById("alert-area").innerHTML =
+      '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+        message +
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="닫기"></button>' +
+      '</div>';
   }
 
-
-  // 페이지 로드 즉시 기존 친구 데이터를 폼에 채워준다.
   loadFriendData();
 </script>
 
