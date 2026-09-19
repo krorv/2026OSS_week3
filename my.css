@@ -22,15 +22,22 @@ body {
 
 body {
   background-color: #f5f7fa;  /* Bootstrap 기본 white 배경을 연한 회색으로 변경 */
+
+  /* Sticky footer: 콘텐츠가 짧아도 footer가 항상 화면 맨 아래에 위치하도록 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 
 /* -------------------------------------------------------
    2. Footer 커스텀
    Bootstrap에 footer 전용 컴포넌트가 없으므로 직접 정의한다.
+   body가 flex column이므로 footer는 자동으로 맨 아래에 위치하고,
+   그 위의 container가 남은 공간을 모두 차지한다.
    ------------------------------------------------------- */
 .footer {
-  margin-top: 60px;
+  margin-top: auto;  /* 콘텐츠가 짧을 때 footer를 화면 하단으로 밀어냄 */
 }
 
 
